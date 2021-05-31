@@ -19,7 +19,7 @@ NCars <- length(carsList)
 links <- NULL
 pb <- progress_bar$new(total = NCars)
 for (car in 1:NCars) {
-  for (i in 1:2) {
+  for (i in 1:500) {
     newPage <- paste0(paste0(paste0(paste0("https://www.otomoto.pl/osobowe/"), carsList[car]), "/?search%5Border%5D=created_at%3Adesc&search%5Bbrand_program_id%5D%5B0%5D=&search%5Bcountry%5D=&page="), i)
     linksSet <- read_html(newPage) %>% html_nodes(xpath = "//a[@class='offer-title__link']") %>% xml_attr('href')
     links <- c(links, linksSet)
@@ -27,10 +27,8 @@ for (car in 1:NCars) {
   pb$tick()
 }
 
-length(links)
 
 linksUnique <- links %>% unique()
-length(linksUnique)
 
 # make function to collecting data from every link
 
@@ -72,7 +70,7 @@ for (x in 1:NLinks) {
   pb$tick()
 }
 
-View(carsDataFrame)
+#View(carsDataFrame)
 
 write.csv(carsDataFrame, 'cars_otomoto.csv')
 
